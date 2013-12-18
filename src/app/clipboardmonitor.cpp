@@ -246,7 +246,7 @@ private:
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     : QObject()
-    , App(new QApplication(argc, argv))
+    , App(qApp ? qApp : new QApplication(argc, argv))
     , m_formats()
     , m_newdata()
     , m_socket( new QLocalSocket(this) )
@@ -267,10 +267,9 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     connect( m_socket, SIGNAL(disconnected()),
              this, SLOT(onDisconnected()) );
 
-    QStringList args = QCoreApplication::instance()->arguments();
-    Q_ASSERT(args.size() == 3);
+    Q_ASSERT(argc == 3);
 
-    const QString &serverName = args[2];
+    QString serverName = argv[2];
     m_socket->connectToServer(serverName);
     if ( !m_socket->waitForConnected(2000) )
         exit(1);

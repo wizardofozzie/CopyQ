@@ -21,6 +21,7 @@
 
 #include "common/client_server.h"
 #include "common/common.h"
+#include "clipboardmonitor.h"
 
 #include <QCoreApplication>
 #include <QByteArray>
@@ -67,9 +68,16 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
                .arg(QCoreApplication::applicationFilePath())
                .arg(arguments.join(" ")) );
 
-    if ( !QProcess::startDetached(QCoreApplication::applicationFilePath(), arguments) ) {
-        log( "Remote process: Failed to start new remote process!", LogError );
-    }
+    int argc = 3;
+    QByteArray argExe = "";
+    QByteArray argMonitor = arguments.value(0).toLatin1();
+    QByteArray argServerName = arguments.value(1).toLatin1();
+    char *argv[3];
+    argv[0] = argExe.data();
+    argv[1] = argMonitor.data();
+    argv[2] = argServerName.data();
+    ClipboardMonitor *monitor = new ClipboardMonitor(argc, argv);
+    connect(this, SIGNAL(destroyed()), monitor, SLOT(deleteLater()));
 
     QTimer::singleShot(16000, this, SLOT(checkConnection()));
 }
