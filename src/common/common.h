@@ -27,7 +27,7 @@
 #include <QVariantMap>
 
 // Application version
-#define COPYQ_VERSION "2.0.1"
+#define COPYQ_VERSION "2.1.0 beta (git:3c36cfd)"
 
 class QAction;
 class QByteArray;
