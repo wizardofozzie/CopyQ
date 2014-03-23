@@ -3,6 +3,16 @@
 
 set -e
 
+# Build only with GCC in coverity phase.
+if [ "$1" == "coverity" -a "$CC" != "gcc" ]; then
+    exit
+fi
+
+# Don't build again after coverity phase.
+if [ -d build ]; then
+    exit
+fi
+
 root=$PWD
 mkdir build
 cd build

@@ -15,3 +15,20 @@ script:
 
 after_success:
   - utils/after_build.sh
+
+# Coverity
+env:
+  global:
+   # The next declration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "LR4PqyPGUUL55eyQygPuJHVDtwuLq6T3d3HjX5Ejo3U/RKIYiSaNCxDCRYfE+qYsteP1F2COuyJKAYYSyc8TVf3Zv1Cg3rOGyra5MtRI1rU4hYLpSW9B2uzLgz3dcfQBvIlJ5AyucZdUfcIG4b2IMP9RYjlKK5kc7wNctw8qFI0="
+
+addons:
+  coverity_scan:
+    project:
+      name: "hluk/CopyQ"
+      description: "Your project description here"
+    notification_email: ruling.worlds@gmail.com
+    build_command_prepend:
+    build_command: utils/build.sh coverity
+    branch_pattern: coverity
