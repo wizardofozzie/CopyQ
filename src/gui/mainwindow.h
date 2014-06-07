@@ -172,7 +172,7 @@ public slots:
     /** Open action dialog for given @a row (or current) in current tab. */
     void openActionDialog(int row = -1);
     /** Open action dialog with given input @a text. */
-    WId openActionDialog(const QVariantMap &data);
+    void openActionDialog(const QVariantMap &data);
 
     /** Open preferences dialog. */
     void openPreferences();

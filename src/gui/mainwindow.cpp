@@ -1688,7 +1688,7 @@ void MainWindow::openActionDialog(int row)
         openActionDialog(dataMap);
 }
 
-WId MainWindow::openActionDialog(const QVariantMap &data)
+void MainWindow::openActionDialog(const QVariantMap &data)
 {
     QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
     actionDialog->setWindowIcon(appIcon(AppIconRunning));
@@ -1702,8 +1702,6 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
         window->raise();
 
     actionDialog.take();
-
-    return wid;
 }
 
 void MainWindow::openPreferences()

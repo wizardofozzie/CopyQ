@@ -42,13 +42,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 {
-    if (messageCode == CommandActivateWindow) {
-        COPYQ_LOG("Activating window.");
-        WId wid = (WId)(data.toLongLong());
-        PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(wid);
-        if (window)
-            window->raise();
-    } else if (messageCode == CommandReadInput) {
+    if (messageCode == CommandReadInput) {
         COPYQ_LOG("Sending standard input.");
         QFile in;
         in.open(stdin, QIODevice::ReadOnly);

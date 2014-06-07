@@ -30,8 +30,6 @@ enum CommandStatus {
     CommandBadSyntax = 2,
     /** Command successfully invoked. */
     CommandSuccess,
-    /** Activate window */
-    CommandActivateWindow,
     /** Ask client to send data from its stdin. */
     CommandReadInput
 };

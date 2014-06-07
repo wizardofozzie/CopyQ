@@ -510,11 +510,7 @@ void Scriptable::show()
         m_proxy->showBrowser(toString(argument(0)));
     } else {
         throwError(argumentError());
-        return;
     }
-
-    QByteArray message = QByteArray::number((qlonglong)m_proxy->mainWinId());
-    sendMessageToClient(message, CommandActivateWindow);
 }
 
 void Scriptable::hide()
@@ -524,28 +520,17 @@ void Scriptable::hide()
 
 void Scriptable::toggle()
 {
-    if ( m_proxy->toggleVisible() ) {
-        QByteArray message = QByteArray::number((qlonglong)m_proxy->mainWinId());
-        sendMessageToClient(message, CommandActivateWindow);
-    }
+    m_proxy->toggleVisible();
 }
 
 void Scriptable::menu()
 {
-    bool shown = false;
-
     if (argumentCount() == 0) {
-        shown = m_proxy->toggleMenu();
+        m_proxy->toggleMenu();
     } else if (argumentCount() == 1) {
-        shown = m_proxy->toggleMenu(toString(argument(0)));
+        m_proxy->toggleMenu(toString(argument(0)));
     } else {
         throwError(argumentError());
-        return;
-    }
-
-    if (shown) {
-        QByteArray message = QByteArray::number((qlonglong)m_proxy->trayMenuWinId());
-        sendMessageToClient(message, CommandActivateWindow);
     }
 }
 
@@ -871,8 +856,7 @@ void Scriptable::action()
                                                   : QString('\n');
         m_proxy->action(data, command);
     } else {
-        QByteArray message = QByteArray::number((qlonglong)m_proxy->openActionDialog(data));
-        sendMessageToClient(message, CommandActivateWindow);
+        m_proxy->openActionDialog(data);
     }
 }
 
