@@ -35,6 +35,7 @@ private slots:
 
 private:
     DWORD m_lastClipboardSequenceNumber;
+    bool m_emitChanged;
 };
 
 #endif // WINPLATFORMCLIPBOARD_H

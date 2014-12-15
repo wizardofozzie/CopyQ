@@ -24,6 +24,7 @@
 WinPlatformClipboard::WinPlatformClipboard()
     : DummyClipboard(false)
     , m_lastClipboardSequenceNumber(-1)
+    , m_emitChanged(false)
 {
     /* Clipboard needs to be checked in intervals since
      * the QClipboard::changed() signal is not emitted in some cases on Windows.
@@ -38,9 +39,12 @@ WinPlatformClipboard::WinPlatformClipboard()
 void WinPlatformClipboard::checkClipboard()
 {
     const DWORD newClipboardSequenceNumber = GetClipboardSequenceNumber();
-    if (newClipboardSequenceNumber == m_lastClipboardSequenceNumber)
-        return;
 
-    m_lastClipboardSequenceNumber = newClipboardSequenceNumber;
-    emit changed(Clipboard);
+    if (m_lastClipboardSequenceNumber != newClipboardSequenceNumber) {
+        m_lastClipboardSequenceNumber = newClipboardSequenceNumber;
+        m_emitChanged = true;
+    } else if (m_emitChanged) {
+        m_emitChanged = false;
+        emit changed(Clipboard);
+    }
 }
